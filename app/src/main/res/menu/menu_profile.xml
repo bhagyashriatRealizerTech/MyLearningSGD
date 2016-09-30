@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.realizer.schoolgeine.driver.ProfileActivity">
+
+
+    <item
+        android:id="@+id/chat_action_edit"
+        android:visible="true"
+        android:orderInCategory="1"
+        app:showAsAction="always"
+        android:title="Edit"
+        android:icon="@drawable/ic_edit_white_36dp"/>
+
+
+</menu>

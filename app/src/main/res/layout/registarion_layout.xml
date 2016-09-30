@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimaryDark"
+        android:id="@+id/frame_first"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Registartion"
+            android:textSize="22sp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:id="@+id/txtHeading"
+            />
+    </FrameLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/frame_first"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/square"
+                android:id="@+id/edtFname"
+                android:singleLine="true"
+                android:hint="Enter Name"
+                android:paddingLeft="10dp"
+                android:textColor="#000000"
+                android:textColorHint="#c0c0c0"
+                android:inputType="text|textCapWords"
+                android:layout_marginBottom="10dp"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/square"
+                android:id="@+id/edtalternateMobNo"
+                android:singleLine="true"
+                android:hint="Enter Mobile Number"
+                android:paddingLeft="10dp"
+                android:textColor="#000000"
+                android:textColorHint="#c0c0c0"
+                android:layout_marginBottom="10dp"
+                android:inputType="number"
+                android:layout_below="@+id/edtFname"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/square"
+                android:id="@+id/edtMobNo"
+                android:singleLine="true"
+                android:hint="Enter Alternate Mobile Number"
+                android:paddingLeft="10dp"
+                android:textColor="#000000"
+                android:textColorHint="#c0c0c0"
+                android:layout_marginBottom="10dp"
+                android:inputType="number"
+                android:layout_below="@+id/edtalternateMobNo"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/square"
+                android:id="@+id/edtAddress"
+                android:singleLine="false"
+                android:lines="2"
+                android:hint="Enter Address"
+                android:gravity="top"
+                android:padding="5dp"
+                android:textColor="#000000"
+                android:textColorHint="#c0c0c0"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/edtMobNo"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/square"
+                android:id="@+id/edtVehicleNo"
+                android:singleLine="true"
+                android:hint="Enter Vehicle Number"
+                android:paddingLeft="10dp"
+                android:textColor="#000000"
+                android:textColorHint="#c0c0c0"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/edtAddress"
+                />
+            <Spinner
+                android:id="@+id/spinnerSchool"
+                android:background="@drawable/spinner_background"
+                android:drawSelectorOnTop="true"
+                android:layout_width="match_parent"
+                android:layout_gravity="left"
+                android:layout_height="50dp"
+                android:spinnerMode="dropdown"
+                android:dropDownVerticalOffset="50dp"
+                android:fontFamily="sans-serif-condensed"
+                android:layout_below="@+id/edtVehicleNo"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+            <TextView
+                android:layout_width="180dp"
+                android:layout_height="40dp"
+                android:id="@+id/txtheading1"
+                android:gravity="left|center_vertical"
+                android:textColor="#000000"
+                android:textColorHint="@color/black"
+                android:textSize="16sp"
+                android:hint="Tracking Start Time :"
+                android:layout_below="@+id/spinnerSchool"
+                />
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:background="@drawable/square"
+                android:id="@+id/txtstartTime"
+                android:gravity="center"
+                android:textColor="#000000"
+                android:textColorHint="#c0c0c0"
+                android:textSize="14sp"
+                android:hint="Click To Set Time"
+                android:layout_below="@+id/txtheading1"
+                android:layout_marginBottom="10dp"
+                />
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:id="@+id/txtheading2"
+                android:gravity="right|center_vertical"
+                android:textColor="#000000"
+                android:textColorHint="@color/black"
+                android:textSize="16sp"
+                android:hint="Tracking End Time :"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/spinnerSchool"
+                />
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:background="@drawable/square"
+                android:id="@+id/txtendTime"
+                android:gravity="center"
+                android:textColor="#000000"
+                android:textColorHint="#c0c0c0"
+                android:textSize="14sp"
+                android:hint="Click To Set Time"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="5dp"
+                android:layout_below="@+id/txtheading2"
+                />
+
+
+            <Button
+                android:layout_width="120dp"
+                android:background="@drawable/login_button_orange"
+                android:layout_height="40dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:textSize="22sp"
+                android:id="@+id/btnSubmit"
+                android:text="Submit"
+                android:textColor="@color/white"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/txtendTime"/>
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <com.realizer.schoolgeine.driver.Commons.ProgressWheel
+        android:id="@+id/loading"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        app:matProg_barColor="@color/colorAccent"
+        app:matProg_progressIndeterminate="true"
+        />
+</RelativeLayout>

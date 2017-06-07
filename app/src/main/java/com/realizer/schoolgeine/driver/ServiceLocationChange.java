@@ -1,5 +1,6 @@
 package com.realizer.schoolgeine.driver;
 
+import android.*;
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.Notification;
@@ -10,12 +11,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -38,15 +41,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-
 /**
  * Created by Win on 12/9/2015.
  */
-public class ServiceLocationChange extends IntentService implements View.OnClickListener,GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,com.google.android.gms.location.LocationListener , OnTaskCompleted {
+public class ServiceLocationChange extends IntentService implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener, OnTaskCompleted {
     Double currentLatitude;
     Double currentLongitude;
-    private static final int TWO_MINUTES = 2*60000;
+    private static final int TWO_MINUTES = 30000;
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
@@ -64,11 +66,11 @@ public class ServiceLocationChange extends IntentService implements View.OnClick
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     SharedPreferences sharedpreferences;
-    DatabaseQueries qr ;
+    DatabaseQueries qr;
     ArrayList<TrackModel> locList;
     int count;
     Location BetterLocation;
-    SimpleDateFormat df ;
+    SimpleDateFormat df;
     public static final String TAG = RegistrationActivity.class.getSimpleName();
 
     public ServiceLocationChange() {
@@ -82,7 +84,7 @@ public class ServiceLocationChange extends IntentService implements View.OnClick
         Toast.makeText(ServiceLocationChange.this, "Service Created", Toast.LENGTH_LONG).show();
     }
 
-    private class  BackgroundThread extends Thread {
+    private class BackgroundThread extends Thread {
         @Override
         public void run() {
             super.run();
@@ -99,15 +101,14 @@ public class ServiceLocationChange extends IntentService implements View.OnClick
             count = 0;
 
             Timer timer = new Timer();
-            timer.scheduleAtFixedRate(new AutoSyncServerDataTrack(), 1000*10, 1000 * 60 * 2);
+            timer.scheduleAtFixedRate(new AutoSyncServerDataTrack(), 1000 * 10, 1000 * 30);
         }
     }
 
-    class AutoSyncServerDataTrack extends TimerTask
-    {
+    class AutoSyncServerDataTrack extends TimerTask {
         @Override
         public void run() {
-            if(locList.size()>0) {
+            if (locList.size() > 0) {
                 Log.d("Async", "ok");
                 SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 String cellNo = pref.getString("DriverUUID", "");
@@ -131,7 +132,7 @@ public class ServiceLocationChange extends IntentService implements View.OnClick
         Toast.makeText(ServiceLocationChange.this, "Task performed in service", Toast.LENGTH_SHORT).show();
 
         qr = new DatabaseQueries(getApplicationContext());
-        df =  new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
         showNotification();
 
@@ -148,7 +149,7 @@ public class ServiceLocationChange extends IntentService implements View.OnClick
     private void showNotification() {
         NotificationManager notificationManager = (NotificationManager)
                 getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notification ;
+        Notification notification;
         Notification.Builder builder = new Notification.Builder(ServiceLocationChange.this);
 
         Intent notificationIntent = new Intent(ServiceLocationChange.this, ServiceLocationChange.class);
@@ -162,8 +163,8 @@ public class ServiceLocationChange extends IntentService implements View.OnClick
         builder.setContentText("Tracking is on");
         builder.setSmallIcon(R.drawable.genie_logo_action_bar);
         builder.setContentIntent(intent);
-        builder.setOngoing(true);  //API level 16
         builder.setNumber(100);
+        builder.setOngoing(false);  //API level 16
         builder.setDefaults(Notification.DEFAULT_SOUND);
         builder.setDefaults(Notification.DEFAULT_VIBRATE);
         builder.build();
@@ -171,26 +172,27 @@ public class ServiceLocationChange extends IntentService implements View.OnClick
         notification = builder.getNotification();
         notificationManager.notify(0, notification);
 
-        startForeground(101,notification);
+        startForeground(101, notification);
 
     }
 
+
+
     @Override
     public void onDestroy() {
-      Log.d("Test Service", "Stop");
+        Log.d("Test Service", "Stop");
         qr.insertTrackingInfo(df.format(new Date()), "Stop", "Stop");
         if (mGoogleApiClient.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,this);
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
             mGoogleApiClient.disconnect();
         }
         super.onDestroy();
     }
 
 
-
     @Override
     public void onLowMemory() {
-        qr.insertTrackingInfo(df.format(new Date()),"Low Memory","Low Memory");
+        qr.insertTrackingInfo(df.format(new Date()), "Low Memory", "Low Memory");
         super.onLowMemory();
     }
 
@@ -214,7 +216,7 @@ public class ServiceLocationChange extends IntentService implements View.OnClick
     }
 
     @Override
-    public void onTaskRemoved(Intent rootIntent){
+    public void onTaskRemoved(Intent rootIntent) {
         Toast.makeText(ServiceLocationChange.this, "On Task Removed", Toast.LENGTH_SHORT).show();
 
         qr.insertTrackingInfo(df.format(new Date()), "Stop", "Stop");
@@ -237,10 +239,10 @@ public class ServiceLocationChange extends IntentService implements View.OnClick
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(UPDATE_INTERVAL_IN_MILLISECONDS)
-        .setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+                .setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
 
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient, mLocationRequest, this);
+
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
 
         Toast.makeText(ServiceLocationChange.this, "On Connected", Toast.LENGTH_SHORT).show();
     }
@@ -343,7 +345,7 @@ public class ServiceLocationChange extends IntentService implements View.OnClick
     }
 
     protected Location getBetterLocation(Location newLocation, Location currentBestLocation) {
-        if (currentBestLocation == null) {
+       /* if (currentBestLocation == null) {
             // A new location is always better than no location
             return newLocation;
         }
@@ -357,9 +359,9 @@ public class ServiceLocationChange extends IntentService implements View.OnClick
         else
         {
             return currentBestLocation;
-        }
+        }*/
 
-        /*if (currentBestLocation == null) {
+        if (currentBestLocation == null) {
             // A new location is always better than no location
             return newLocation;
         }
@@ -396,7 +398,6 @@ public class ServiceLocationChange extends IntentService implements View.OnClick
             return newLocation;
         }
         return currentBestLocation;
-*/
     }
 
 }

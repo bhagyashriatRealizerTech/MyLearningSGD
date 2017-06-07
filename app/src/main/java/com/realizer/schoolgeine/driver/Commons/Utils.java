@@ -35,7 +35,8 @@ import java.util.Locale;
 public class Utils {
 
 
-    public static String url = "http://104.217.254.180/SJRestWCF/svcEmp.svc/";
+   // public static String url = "http://104.217.254.180/SJRestWCF/svcEmp.svc/";
+   public static final String url ="http://45.35.4.250/SJRestWCF/svcEmp.svc/";
     /**
      * @param title to set
      * @return title SpannableString

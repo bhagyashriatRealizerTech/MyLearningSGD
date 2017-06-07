@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.realizer.schoolgeine.driver.Commons.OnTaskCompleted;
+import com.realizer.schoolgeine.driver.Commons.Utils;
 import com.realizer.schoolgeine.driver.model.TrackModel;
 
 import org.apache.http.HttpEntity;
@@ -52,7 +53,7 @@ public class LocationChangeAsyncTaskPost extends AsyncTask<Void, Void,StringBuil
     @Override
     protected StringBuilder doInBackground(Void... params1) {
         builder = new StringBuilder();
-        String url="http://104.217.254.180/SJRestWCF/svcEmp.svc/SetPLocation";
+        String url= Utils.url+"SetPLocation";
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(url);
 
